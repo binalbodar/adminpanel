@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,10 +6,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DataGrid } from '@mui/x-data-grid';
 
 function Medicine(props) {
-
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [data, setData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,16 +23,68 @@ function Medicine(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handlesubmit = () => {
-
+  const getData = () => {
+    let localData = JSON.parse(localStorage.getItem('medicine'));
+    if (localData !== null) {
+      setData(localData);
+    }
   }
+  useEffect(
+    () => {
+      getData();
+    },
+    [])
+  const handleSubmit = () => {
+    console.log(name, price, quantity, expiry);
+
+    let data = {
+      id: Math.floor(Math.random() * 1000),
+      name,
+      price,
+      quantity,
+      expiry
+    };
+
+    handleClose();
+    setName('');
+    setPrice('');
+    setQuantity('');
+    setExpiry('');
+    getData();
+    let localData = JSON.parse(localStorage.getItem('medicine'));
+    if (localData === null) {
+      localStorage.setItem('medicine', JSON.stringify([data]));
+    }
+    else {
+      localData.push(data)
+      localStorage.setItem('medicine', JSON.stringify(localData));
+    }
+  }
+
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Name', width: 130 },
+    { field: 'price', headerName: 'Price', width: 130 },
+    { field: 'quantity', headerName: 'Quantity', width: 130 },
+    { field: 'expiry', headerName: 'Expiry', width: 130 }
+  ];
 
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
         Add Medicine
       </Button>
+
+      <div style={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+        />
+      </div>
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Medicine Data</DialogTitle>
         <DialogContent>
@@ -39,6 +96,7 @@ function Medicine(props) {
             label="Medicine Name"
             fullWidth
             variant="standard"
+            onChange={(e) => setName(e.target.value)}
           />
           <TextField
             autoFocus
@@ -48,6 +106,7 @@ function Medicine(props) {
             label="Medicine Price"
             fullWidth
             variant="standard"
+            onChange={(e) => setPrice(e.target.value)}
           />
           <TextField
             autoFocus
@@ -57,6 +116,7 @@ function Medicine(props) {
             label="Medicine Quantity"
             fullWidth
             variant="standard"
+            onChange={(e) => setQuantity(e.target.value)}
           />
           <TextField
             autoFocus
@@ -66,11 +126,12 @@ function Medicine(props) {
             label="Medicine Expiry"
             fullWidth
             variant="standard"
+            onChange={(e) => setExpiry(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handlesubmit}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
     </div>
