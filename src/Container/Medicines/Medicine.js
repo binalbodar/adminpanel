@@ -7,6 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Medicine(props) {
   const [open, setOpen] = useState(false);
@@ -29,6 +31,15 @@ function Medicine(props) {
       setData(localData);
     }
   }
+  const handleDelete=(params)=>{
+      // console.log(params);
+     let localData1=JSON.parse(localStorage.getItem("medicine"));
+    //  console.log(localData1);
+    let appData=localData1.filter((l, i) => l.id !== params.id);
+    localStorage.setItem("medicine",JSON.stringify(appData));
+    getData(); 
+
+  }
   useEffect(
     () => {
       getData();
@@ -45,13 +56,8 @@ function Medicine(props) {
       expiry
     };
 
-    handleClose();
-    setName('');
-    setPrice('');
-    setQuantity('');
-    setExpiry('');
-    getData();
     let localData = JSON.parse(localStorage.getItem('medicine'));
+
     if (localData === null) {
       localStorage.setItem('medicine', JSON.stringify([data]));
     }
@@ -59,6 +65,13 @@ function Medicine(props) {
       localData.push(data)
       localStorage.setItem('medicine', JSON.stringify(localData));
     }
+    handleClose();
+    setName('');
+    setPrice('');
+    setQuantity('');
+    setExpiry('');
+
+    getData();
   }
 
   const columns = [
@@ -66,7 +79,21 @@ function Medicine(props) {
     { field: 'name', headerName: 'Name', width: 130 },
     { field: 'price', headerName: 'Price', width: 130 },
     { field: 'quantity', headerName: 'Quantity', width: 130 },
-    { field: 'expiry', headerName: 'Expiry', width: 130 }
+    { field: 'expiry', headerName: 'Expiry', width: 130 },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 130,
+      renderCell: (params) => {
+        return (
+          <IconButton aria-label="delete" onClick={()=>handleDelete(params)}>
+            <DeleteIcon />
+          </IconButton>
+        )
+      }
+
+    }
+
   ];
 
   return (
