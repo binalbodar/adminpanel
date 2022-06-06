@@ -11,12 +11,14 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Medicine(props) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); 
+  const [dopen, setDOpen] = useState(false);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [expiry, setExpiry] = useState('');
   const [data, setData] = useState([]);
+  const [did, setDid] = useState();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,7 +26,14 @@ function Medicine(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setDOpen(false);
   };
+
+  const handledClickOpen = (params) => {
+    setDOpen(true);
+    setDid(params.id);
+  };
+
   const getData = () => {
     let localData = JSON.parse(localStorage.getItem('medicine'));
     if (localData !== null) {
@@ -32,12 +41,12 @@ function Medicine(props) {
     }
   }
   const handleDelete=(params)=>{
-      // console.log(params);
      let localData1=JSON.parse(localStorage.getItem("medicine"));
-    //  console.log(localData1);
-    let appData=localData1.filter((l, i) => l.id !== params.id);
+    let appData=localData1.filter((l, i) => l.id !== did);
     localStorage.setItem("medicine",JSON.stringify(appData));
     getData(); 
+    setDid('');
+    handleClose('');
 
   }
   useEffect(
@@ -70,7 +79,7 @@ function Medicine(props) {
     setPrice('');
     setQuantity('');
     setExpiry('');
-
+    
     getData();
   }
 
@@ -86,7 +95,7 @@ function Medicine(props) {
       width: 130,
       renderCell: (params) => {
         return (
-          <IconButton aria-label="delete" onClick={()=>handleDelete(params)}>
+          <IconButton aria-label="delete" onClick={()=>handledClickOpen(params)}>
             <DeleteIcon />
           </IconButton>
         )
@@ -159,6 +168,23 @@ function Medicine(props) {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Submit</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={dopen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are You Sure delete?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose}>NO</Button>
+          <Button onClick={handleDelete} autoFocus>
+            YES
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
