@@ -23,7 +23,7 @@ function Medicineformik(props) {
     const [expiry, setExpiry] = useState('');
     const [data, setData] = useState([]);
     const [did, setDid] = useState();
-    const [update, serUpdate] = useState(false);
+    const [update, setUpdate] = useState(false);
     const [uid, setUid] = useState();
 
     const handleClickOpen = () => {
