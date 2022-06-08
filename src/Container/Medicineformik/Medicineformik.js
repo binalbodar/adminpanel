@@ -11,7 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
-import Box from '@mui/material/Box';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 function Medicineformik(props) {
     const [open, setOpen] = useState(false);
@@ -43,7 +44,7 @@ function Medicineformik(props) {
             setData(localData);
         }
     }
-    const handleDelete = (params) => {
+    const handleDelete = () => {
         let localData1 = JSON.parse(localStorage.getItem("medicine"));
         let appData = localData1.filter((l, i) => l.id !== did);
         localStorage.setItem("medicine", JSON.stringify(appData));
@@ -58,9 +59,40 @@ function Medicineformik(props) {
         },
         [])
 
+    const handleSubmit = (values) => {
+        console.log(name, price, quantity, expiry);
+
+        let data = {
+            id: Math.floor(Math.random() * 1000),
+            name: values.name,
+            price: values.price,
+            quantity: values.quantity,
+            expiry: values.expiry
+        };
+
+        let localData = JSON.parse(localStorage.getItem('medicine'));
+
+        if (localData === null) {
+            localStorage.setItem('medicine', JSON.stringify([data]));
+        }
+        else {
+            localData.push(data);
+            localStorage.setItem('medicine', JSON.stringify(localData));
+        }
+
+        handleClose();
+        setName('');
+        setPrice('');
+        setQuantity('');
+        setExpiry('');
+
+        getData();
+
+    }
+
     let schema = yup.object().shape({
         name: yup.string().required('Plese Enter Your Name'),
-        price: yup.number().required('Plese Enter Your price'),
+        price: yup.string().required('Plese Enter Your price'),
         quantity: yup.string().required('Plese Enter Your quantity'),
         expiry: yup.string().required('Plese Enter Your expiry')
     });
@@ -74,39 +106,11 @@ function Medicineformik(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            handleSubmit(values);
         },
     });
-    // console.log(Formik.errors.name);
 
-    const handleSubmit = (values) => {
-        console.log(name, price, quantity, expiry);
-
-        let data = {
-            id: Math.floor(Math.random() * 1000).values,
-            name:  name.values,
-            price: price.values,
-            quantity: quantity.values,
-            expiry: expiry.values
-        };
-
-        let localData = JSON.parse(localStorage.getItem('medicine'));
-
-        if (localData === null) {
-            localStorage.setItem('medicine', JSON.stringify([data]));
-        }
-        else {
-            localData.push(data);
-            localStorage.setItem('medicine', JSON.stringify(localData));
-        }
-        handleClose();
-        setName('');
-        setPrice('');
-        setQuantity('');
-        setExpiry('');
-
-        getData();
-    }
+    console.log(Formik.errors);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -120,9 +124,15 @@ function Medicineformik(props) {
             width: 130,
             renderCell: (params) => {
                 return (
+                    <>
                     <IconButton aria-label="delete" onClick={() => handledClickOpen(params)}>
                         <DeleteIcon />
                     </IconButton>
+
+                        <IconButton aria-label="delete" onClick={() => handledClickOpen(params)}>
+                        <EditIcon />
+                        </IconButton>
+                    </>
                 )
             }
         }
@@ -133,16 +143,6 @@ function Medicineformik(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add Medicine
             </Button>
-
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
-                }}
-                noValidate
-                autoComplete="off"
-            ></Box>
-
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={data}
@@ -155,59 +155,50 @@ function Medicineformik(props) {
 
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Medicine Data</DialogTitle>
-                <Formik values={Formik}>
-                    <Form onSubmit={formik.handleChange}>
+                <Formik values={formik}>
+                    <Form onSubmit={formik.handleSubmit}>
                         <DialogContent>
                             <TextField
                                 autoFocus
-                                // error
                                 margin="dense"
-                                // id="standard-error-helper-text"
                                 name="name"
                                 label="Medicine Name"
                                 fullWidth
                                 variant="standard"
-                                // helperText="Incorrect entry."
                                 onChange={formik.handleChange}
                             />
-                            {Formik.errors.name ? <p>{Formik.errors.name}</p> : null}
+                            {formik.errors.name ? <p>{formik.errors.name}</p> : null}
                             <TextField
                                 autoFocus
-                                // error
                                 margin="dense"
                                 name="price"
                                 label="Medicine Price"
                                 fullWidth
                                 variant="standard"
-                                // helperText="Incorrect entry."
                                 onChange={formik.handleChange}
                             />
-                            {Formik.errors.price ? <p>{Formik.errors.price}</p> : null}
+                            {formik.errors.price ? <p>{formik.errors.price}</p> : null}
                             <TextField
                                 autoFocus
-                                // error
                                 margin="dense"
                                 name="quantity"
                                 label="Medicine Quantity"
                                 fullWidth
                                 variant="standard"
-                                // helperText="Incorrect entry."
                                 onChange={formik.handleChange}
 
                             />
-                            {Formik.errors.quantity ? <p>{Formik.errors.quantity}</p> : null}
+                            {formik.errors.quantity ? <p>{formik.errors.quantity}</p> : null}
                             <TextField
                                 autoFocus
-                                // error
                                 margin="dense"
                                 name="expiry"
                                 label="Medicine Expiry"
                                 fullWidth
                                 variant="standard"
-                                // helperText="Incorrect entry."
                                 onChange={formik.handleChange}
                             />
-                            {Formik.errors.expiry ? <p>{Formik.errors.expiry}</p> : null}
+                            {formik.errors.expiry ? <p>{formik.errors.expiry}</p> : null}
                             <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
                                 <Button type='submit'>Submit</Button>

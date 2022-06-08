@@ -85,7 +85,7 @@ export default function Layout({children}) {
   let Listitem=[
       {label: 'Medicine', to: '/medicine', Icon: <MedicalServicesIcon/>},
       {label: 'Doctor', to: '/doctor', Icon: <PersonIcon/>},
-      {label: 'MedicineFormik', to: '/medicineformik', Icon: <PersonIcon/>}
+      {label: 'MedicineFormik', to: '/medicineformik', Icon: <MedicalServicesIcon/>}
   ]
 
   return (
