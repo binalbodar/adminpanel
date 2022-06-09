@@ -23,6 +23,8 @@ function Medicineformik(props) {
     const [expiry, setExpiry] = useState('');
     const [data, setData] = useState([]);
     const [did, setDid] = useState();
+    const [update, setUpdate] = useState(false);
+    const [uid, setUid] = useState();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -39,10 +41,41 @@ function Medicineformik(props) {
     };
 
     const getData = () => {
+        setData();
         let localData = JSON.parse(localStorage.getItem('medicine'));
         if (localData !== null) {
             setData(localData);
         }
+    }
+    const handleEdit=(params)=>{
+        setUid(params.id);
+        setOpen(true);
+        formik.setValues({
+        name:params.name,
+        price:params.price,
+        quantity:params.quantity,
+        expiry:params.expiry
+        });
+        setUpdate(true);
+    }
+    const handleUpdate=(values)=>{
+        console.log(values, uid);
+        let localData=JSON.parse(localStorage.getItem('medicine'));
+        let vData=localData.map((l)=>{
+            if(l.id===uid){
+                return{id: uid, ...values};
+            }
+            else
+            {
+                return l;
+            }
+        })
+        console.log(vData);
+        localStorage.setItem("medicine", JSON.stringify(vData));
+        setOpen(false);
+        setUpdate(false);
+        setUid();
+        getData();
     }
     const handleDelete = () => {
         let localData1 = JSON.parse(localStorage.getItem("medicine"));
@@ -59,7 +92,7 @@ function Medicineformik(props) {
         },
         [])
 
-    const handleSubmit = (values) => {
+    let handleSubmit = (values) => {
         console.log(name, price, quantity, expiry);
 
         let data = {
@@ -85,7 +118,6 @@ function Medicineformik(props) {
         setPrice('');
         setQuantity('');
         setExpiry('');
-
         getData();
 
     }
@@ -106,11 +138,17 @@ function Medicineformik(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            handleSubmit(values);
+            if(update){
+                handleUpdate(values);
+            }
+            else{
+                handleSubmit(values);
+            }
+            handleClose();
         },
     });
 
-    console.log(Formik.errors);
+    console.log(formik.errors);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -129,7 +167,7 @@ function Medicineformik(props) {
                         <DeleteIcon />
                     </IconButton>
 
-                        <IconButton aria-label="delete" onClick={() => handledClickOpen(params)}>
+                        <IconButton aria-label="delete" onClick={() => handleEdit(params.row)}>
                         <EditIcon />
                         </IconButton>
                     </>
@@ -162,6 +200,7 @@ function Medicineformik(props) {
                                 autoFocus
                                 margin="dense"
                                 name="name"
+                                value={formik.values.name}
                                 label="Medicine Name"
                                 fullWidth
                                 variant="standard"
@@ -171,7 +210,8 @@ function Medicineformik(props) {
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                name="price"
+                                name="Price"
+                                value={formik.values.price}
                                 label="Medicine Price"
                                 fullWidth
                                 variant="standard"
@@ -182,6 +222,7 @@ function Medicineformik(props) {
                                 autoFocus
                                 margin="dense"
                                 name="quantity"
+                                value={formik.values.quantity}
                                 label="Medicine Quantity"
                                 fullWidth
                                 variant="standard"
@@ -193,6 +234,7 @@ function Medicineformik(props) {
                                 autoFocus
                                 margin="dense"
                                 name="expiry"
+                                value={formik.values.expiry}
                                 label="Medicine Expiry"
                                 fullWidth
                                 variant="standard"
