@@ -18,7 +18,7 @@ function Medicineformik(props) {
     const [open, setOpen] = useState(false);
     const [dopen, setDOpen] = useState(false);
     const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+    const [Price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
     const [expiry, setExpiry] = useState('');
     const [data, setData] = useState([]);
@@ -52,7 +52,7 @@ function Medicineformik(props) {
         setOpen(true);
         formik.setValues({
         name:params.name,
-        price:params.price,
+        Price:params.Price,
         quantity:params.quantity,
         expiry:params.expiry
         });
@@ -93,12 +93,12 @@ function Medicineformik(props) {
         [])
 
     let handleSubmit = (values) => {
-        console.log(name, price, quantity, expiry);
+        console.log(name, Price, quantity, expiry);
 
         let data = {
             id: Math.floor(Math.random() * 1000),
             name: values.name,
-            price: values.price,
+            Price: values.Price,
             quantity: values.quantity,
             expiry: values.expiry
         };
@@ -124,7 +124,7 @@ function Medicineformik(props) {
 
     let schema = yup.object().shape({
         name: yup.string().required('Plese Enter Your Name'),
-        price: yup.string().required('Plese Enter Your price'),
+        Price: yup.string().required('Plese Enter Your Price'),
         quantity: yup.string().required('Plese Enter Your quantity'),
         expiry: yup.string().required('Plese Enter Your expiry')
     });
@@ -132,7 +132,7 @@ function Medicineformik(props) {
     const formik = useFormik({
         initialValues: {
             name: '',
-            price: '',
+            Price: '',
             quantity: '',
             expiry: ''
         },
@@ -153,7 +153,7 @@ function Medicineformik(props) {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 130 },
-        { field: 'price', headerName: 'Price', width: 130 },
+        { field: 'Price', headerName: 'Price', width: 130 },
         { field: 'quantity', headerName: 'Quantity', width: 130 },
         { field: 'expiry', headerName: 'Expiry', width: 130 },
         {
@@ -211,13 +211,13 @@ function Medicineformik(props) {
                                 autoFocus
                                 margin="dense"
                                 name="Price"
-                                value={formik.values.price}
+                                value={formik.values.Price}
                                 label="Medicine Price"
                                 fullWidth
                                 variant="standard"
                                 onChange={formik.handleChange}
                             />
-                            {formik.errors.price ? <p>{formik.errors.price}</p> : null}
+                            {formik.errors.Price ? <p>{formik.errors.Price}</p> : null}
                             <TextField
                                 autoFocus
                                 margin="dense"
