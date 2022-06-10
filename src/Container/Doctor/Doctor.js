@@ -41,7 +41,6 @@ function Doctor(props) {
     };
 
     const getData = () => {
-        setData();
         let localData = JSON.parse(localStorage.getItem('medicine'));
         if (localData !== null) {
             setData(localData);
