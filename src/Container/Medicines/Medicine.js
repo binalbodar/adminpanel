@@ -44,7 +44,7 @@ function Medicine(props) {
      let localData1=JSON.parse(localStorage.getItem("medicine"));
     let appData=localData1.filter((l, i) => l.id !== did);
     localStorage.setItem("medicine",JSON.stringify(appData));
-    getData(); 
+    getData();  
     setDid('');
     handleClose('');
 
