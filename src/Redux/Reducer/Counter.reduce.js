@@ -1,4 +1,5 @@
-import { ActionTypes } from "@mui/base";
+import * as ActionTypes from "../ActionTypes"
+
 const intialstate ={
     counter:0
 }
