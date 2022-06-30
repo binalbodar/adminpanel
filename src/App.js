@@ -1,4 +1,4 @@
-import { Route,Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import Layout from "./Componets/Layout/Layout";
 import Doctor from "./Container/Doctor/Doctor";
 import Medicineformik from "./Container/Medicineformik/Medicineformik";
@@ -11,13 +11,13 @@ function App() {
   const store = configurStore();
   return (
     <>
-    <Provider store={store}>
+      <Provider store={store}>
         <Layout>
           <Switch>
-            <Route exact path={"/medicine"} component={Medicine}/>
-            <Route exact path={"/medicineformik"} component={Medicineformik}/>
-            <Route exact path={"/doctor"} component={Doctor}/>
-            <Route exact path={"/counter"} component={Counter}/>
+            <Route exact path={"/medicine"} component={Medicine} />
+            <Route exact path={"/medicineformik"} component={Medicineformik} />
+            <Route exact path={"/doctor"} component={Doctor} />
+            <Route exact path={"/counter"} component={Counter} />
           </Switch>
         </Layout>
       </Provider>
