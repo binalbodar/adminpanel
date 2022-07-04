@@ -1,20 +1,26 @@
 {
-    "posts": [
-    { 
-        "id": 1, 
-        "title": "json-server", 
-        "author": "typicode" 
-    }
-    ],
-    "comments": [
+  "posts": [
     {
-        "id": 1, 
-        "body": "some comment", 
-        "postId": 1 
+      "id": 1,
+      "title": "json-server123",
+      "author": "typicode123"
     }
-    ],
-    "profile": 
-    { 
-        "name": "typicode" 
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "title": "json",
+      "author": "typicode"
+    },
+    {
+      "id": 123,
+      "title": "json232",
+      "author": "typicode2123"
     }
+  ],
+  "profile": {
+    "id": 1,
+    "title": "json",
+    "author": "typicode"
   }
+}
