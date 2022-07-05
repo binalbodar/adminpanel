@@ -13,6 +13,8 @@ import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getMedicines } from '../../Redux/Action/medicine.action';
 
 
 function Medicineformik(props) {
@@ -45,7 +47,6 @@ function Medicineformik(props) {
     };
 
     const getData = () => {
-        //setData();
         let localData = JSON.parse(localStorage.getItem('medicine'));
         console.log(localData);
         if (localData !== null) {
@@ -91,9 +92,11 @@ function Medicineformik(props) {
         handleClose('');
 
     }
+    const dispatch = useDispatch();
     useEffect(
         () => {
             getData();
+            dispatch(getMedicines())
         },
         [])
 
