@@ -31,7 +31,9 @@ function Medicineformik(props) {
     const [filterdata, setFilterData] = useState([]);
 
     const counter = useSelector(state => state.counter)
-
+    const medicine = useSelector (state => state.medicine) 
+    console.log(medicine);
+      
     const handleClickOpen = () => {
         setOpen(true);
     };
