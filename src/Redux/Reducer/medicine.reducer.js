@@ -5,7 +5,7 @@ const initialstate={
     error:''
 }
 export const medicinesReducer=(state=initialstate,action)=>{
-    console.log(action.type, action.payload);
+    console.log(action.type, action.payload, state);
     switch(action.type){
         case ActionTypes.LOADING_MEDICINE:
             return{
@@ -27,6 +27,13 @@ export const medicinesReducer=(state=initialstate,action)=>{
                 isLoading:false,
                 medicines:[],
                 error:action.payload
+            }
+            case ActionTypes.ERROR_MEDICINE:
+            return{
+                ...state,
+                isLoading:false,
+                medicines:state.medicines.concat(action.payload),
+                error:''
             }
             default:
                 return state;

@@ -14,7 +14,7 @@ import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getMedicines } from '../../Redux/Action/medicine.action';
+import { getMedicines, postMedicione } from '../../Redux/Action/medicine.action';
 
 
 function Medicineformik(props) {
@@ -32,7 +32,7 @@ function Medicineformik(props) {
 
     const counter = useSelector(state => state.counter)
     const medicine = useSelector (state => state.medicine) 
-    console.log(medicine);
+    // console.log(medicine.medicines);
       
     const handleClickOpen = () => {
         setOpen(true);
@@ -49,11 +49,12 @@ function Medicineformik(props) {
     };
 
     const getData = () => {
-        let localData = JSON.parse(localStorage.getItem('medicine'));
-        console.log(localData);
-        if (localData !== null) {
-            setData(localData);
-        }
+        // let localData = JSON.parse(localStorage.getItem('medicine'));
+        // console.log(localData);
+        // if (localData !== null) {
+        //     setData(localData);
+        // }
+        setData(medicine.posts)
     }
     const handleEdit=(params)=>{
         setUid(params.id);
@@ -112,16 +113,18 @@ function Medicineformik(props) {
             quantity: values.quantity,
             expiry: values.expiry
         };
+        console.log(data);
+        dispatch(postMedicione(data))
 
-        let localData = JSON.parse(localStorage.getItem('medicine'));
+        // let localData = JSON.parse(localStorage.getItem('medicine'));
 
-        if (localData === null) {
-            localStorage.setItem('medicine', JSON.stringify([data]));
-        }
-        else {
-            localData.push(data);
-            localStorage.setItem('medicine', JSON.stringify(localData));
-        }
+        // if (localData === null) {
+        //     localStorage.setItem('medicine', JSON.stringify([data]));
+        // }
+        // else {
+        //     localData.push(data);
+        //     localStorage.setItem('medicine', JSON.stringify(localData));
+        // }
 
         handleClose();
         setName('');
@@ -216,7 +219,7 @@ function Medicineformik(props) {
             <p>{counter.counter}</p>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={finaldata}
+                    rows={medicine.posts}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
