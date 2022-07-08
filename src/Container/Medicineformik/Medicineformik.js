@@ -14,7 +14,7 @@ import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { getMedicines, postMedicione } from '../../Redux/Action/medicine.action';
+import { addMedicines, getMedicines } from '../../Redux/Action/medicine.action';
 
 
 function Medicineformik(props) {
@@ -31,8 +31,7 @@ function Medicineformik(props) {
     const [filterdata, setFilterData] = useState([]);
 
     const counter = useSelector(state => state.counter)
-    const medicine = useSelector (state => state.medicine) 
-    // console.log(medicine.medicines);
+    const medicines = useSelector (state => state.medicines) 
       
     const handleClickOpen = () => {
         setOpen(true);
@@ -54,7 +53,7 @@ function Medicineformik(props) {
         // if (localData !== null) {
         //     setData(localData);
         // }
-        setData(medicine.posts)
+        setData(medicines.medicines);
     }
     const handleEdit=(params)=>{
         setUid(params.id);
@@ -114,8 +113,7 @@ function Medicineformik(props) {
             expiry: values.expiry
         };
         console.log(data);
-        dispatch(postMedicione(data))
-
+        dispatch(addMedicines(data))
         // let localData = JSON.parse(localStorage.getItem('medicine'));
 
         // if (localData === null) {
@@ -203,7 +201,15 @@ function Medicineformik(props) {
     console.log(data);
 
     return (
-        <div>
+        <>
+        {
+            medicines.isLoading ?
+            (
+                <p>Loading.....</p>
+            ):(
+                medicines.error !== ''?
+                <p>{medicines.error}</p>:
+                <div>
             <TextField
                 autoFocus
                 margin="dense"
@@ -219,7 +225,7 @@ function Medicineformik(props) {
             <p>{counter.counter}</p>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={medicine.posts}
+                    rows={medicines.medicines}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -302,7 +308,11 @@ function Medicineformik(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+            </div>
+            ) 
+        }
+        </>
+        
     );
 }
 

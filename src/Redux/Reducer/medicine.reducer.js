@@ -1,41 +1,41 @@
 import * as ActionTypes from "../ActionTypes"
-const initialstate={
-    isLoading:false,
-    medicines:[],
-    error:''
+const initialstate = {
+    isLoading: false,
+    medicines: [],
+    error: ''
 }
-export const medicinesReducer=(state=initialstate,action)=>{
+export const medicinesReducer = (state = initialstate, action) => {
     console.log(action.type, action.payload, state);
-    switch(action.type){
+    switch (action.type) {
         case ActionTypes.LOADING_MEDICINE:
-            return{
+            return {
                 ...state,
-                isLoading:true,
-                medicines:[],
-                error:''
+                isLoading: true,
+                // medicines: [],
+                error: ''
             }
         case ActionTypes.GET_MEDICINE:
-            return{
+            return {
                 ...state,
-                isLoading:false,
-                medicines:action.payload,
-                error:''
+                isLoading: false,
+                medicines: action.payload,
+                error: ''
             }
         case ActionTypes.ERROR_MEDICINE:
-            return{
+            return {
                 ...state,
-                isLoading:false,
-                medicines:[],
-                error:action.payload
+                isLoading: false,
+                medicines: [],
+                error: action.payload
             }
-            case ActionTypes.ERROR_MEDICINE:
-            return{
+        case ActionTypes.POST_MEDICINE:
+            return {
                 ...state,
-                isLoading:false,
-                medicines:state.medicines.concat(action.payload),
+                isLoading: false,
+                medicines: state.medicines.concat(action.payload),
                 error:''
             }
-            default:
-                return state;
+        default:
+            return state;
     }
 }
