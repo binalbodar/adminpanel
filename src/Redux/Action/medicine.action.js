@@ -41,7 +41,7 @@ export const addMedicines = (data) => (dispatch) => {
     dispatch(loadingMedicine());
     setTimeout(function () {
       return fetch(BASE_URL + 'medicine', {
-        method: 'POST', // or 'PUT'
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },

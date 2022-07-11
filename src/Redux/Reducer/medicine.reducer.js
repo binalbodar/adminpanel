@@ -35,6 +35,13 @@ export const medicinesReducer = (state = initialstate, action) => {
                 medicines: state.medicines.concat(action.payload),
                 error:''
             }
+            case ActionTypes.DELETE_MEDICINE:
+            return {
+                ...state,
+                isLoading: false,
+                medicines: state.medicines.concat(action.payload),
+                error:''
+            }
         default:
             return state;
     }

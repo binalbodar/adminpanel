@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { addMedicines, getMedicines } from '../../Redux/Action/medicine.action';
 
 
-function Medicineformik(props) {
+function Medicineformik(props) {     
     const [open, setOpen] = useState(false);
     const [dopen, setDOpen] = useState(false);
     const [name, setName] = useState('');
@@ -198,7 +198,6 @@ function Medicineformik(props) {
         }
     ];
 
-    console.log(data);
 
     return (
         <>
