@@ -14,7 +14,7 @@ import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addMedicines, getMedicines } from '../../Redux/Action/medicine.action';
+import { addMedicines, deleteMedicines, getMedicines, upadateMedicine } from '../../Redux/Action/medicine.action';
 
 
 function Medicineformik(props) {     
@@ -59,6 +59,7 @@ function Medicineformik(props) {
         setUid(params.id);
         setOpen(true);
         formik.setValues({
+        id:params.id,
         name:params.name,
         Price:params.Price,
         quantity:params.quantity,
@@ -68,28 +69,30 @@ function Medicineformik(props) {
     }
     const handleUpdate=(values)=>{
         console.log(values, uid);
-        let localData=JSON.parse(localStorage.getItem('medicine'));
-        let vData=localData.map((l)=>{
-            if(l.id===uid){
-                return{id: uid, ...values};
-            }
-            else
-            {
-                return l;
-            }
-        })
-        console.log(vData);
-        localStorage.setItem("medicine", JSON.stringify(vData));
+        dispatch(upadateMedicine(values))
+        // let localData=JSON.parse(localStorage.getItem('medicine'));
+        // let vData=localData.map((l)=>{
+        //     if(l.id===uid){
+        //         return{id: uid, ...values};
+        //     }
+        //     else
+        //     {
+        //         return l;
+        //     }
+        // })
+        // console.log(vData);
+        // localStorage.setItem("medicine", JSON.stringify(vData));
         setOpen(false);
         setUpdate(false);
         setUid();
         getData();
     }
     const handleDelete = () => {
-        let localData1 = JSON.parse(localStorage.getItem("medicine"));
-        let appData = localData1.filter((l, i) => l.id !== did);
-        localStorage.setItem("medicine", JSON.stringify(appData));
-        getData();
+        // let localData1 = JSON.parse(localStorage.getItem("medicine"));
+        // let appData = localData1.filter((l, i) => l.id !== did);
+        // localStorage.setItem("medicine", JSON.stringify(appData));
+        //getData();
+        dispatch(deleteMedicines(did));
         setDid('');
         handleClose('');
 

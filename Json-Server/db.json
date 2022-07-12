@@ -1,45 +1,24 @@
 {
   "medicine": [
     {
-      "id": 1,
-      "name": "json-server1",
-      "Price": 123,
-      "quantity": 150,
-      "expiry": 2022
-    },
-    {
       "id": 2,
-      "name": "json-server12",
-      "Price": 120,
-      "quantity": 160,
+      "name": "json-server121",
+      "Price": "1201",
+      "quantity": "1601",
       "expiry": 2023
     },
     {
-      "id": 3,
-      "name": "json-server123",
-      "Price": 140,
-      "quantity": 170,
-      "expiry": 2024
-    },
-    {
-      "id": 211,
-      "name": "Binal",
-      "Price": "654",
+      "id": 318,
+      "name": "Binal1",
+      "Price": "6541",
       "quantity": "300",
-      "expiry": "20251"
+      "expiry": "2024"
     },
     {
-      "id": 784,
+      "id": 943,
       "name": "Binal1",
       "Price": "565",
-      "quantity": "100",
-      "expiry": "2023"
-    },
-    {
-      "id": 522,
-      "name": "demo",
-      "Price": "565",
-      "quantity": "3001",
+      "quantity": "300",
       "expiry": "2022"
     }
   ],
