@@ -1,28 +1,32 @@
 import * as ActionTypes from "../ActionTypes"
 import { BASE_URL } from "../../sharad/baseurl"
+import { getMedicinesData } from "../../common/apis/medicine.api";
 
 export const getMedicines = () => (dispatch) => {
   try {
     dispatch(loadingMedicine());
-    setTimeout(function () {
-      return fetch(BASE_URL + 'medicine')
-        .then(response => {
-          if (response.ok) {
-            return response;
-          } else {
-            var error = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-          }
-        },
-          error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-          })
-        .then((response) => response.json())
-        .then(medicine => dispatch(({ type: ActionTypes.GET_MEDICINE, payload: medicine })))
-        .catch((error) => dispatch(errorMedicine(error.message)))
-    }, 2000)
+
+    getMedicinesData()
+    .then (data=>console.log(data.data))
+    // setTimeout(function () {
+    //   return fetch(BASE_URL + 'medicine')
+    //     .then(response => {
+    //       if (response.ok) {
+    //         return response;
+    //       } else {
+    //         var error = new Error('Error ' + response.status + ': ' + response.statusText);
+    //         error.response = response;
+    //         throw error;
+    //       }
+    //     },
+    //       error => {
+    //         var errmess = new Error(error.message);
+    //         throw errmess;
+    //       })
+    //     .then((response) => response.json())
+    //     .then(medicine => dispatch(({ type: ActionTypes.GET_MEDICINE, payload: medicine })))
+    //     .catch((error) => dispatch(errorMedicine(error.message)))
+    // }, 2000)
   } catch (error) {
     dispatch(errorMedicine(error.message))
   }

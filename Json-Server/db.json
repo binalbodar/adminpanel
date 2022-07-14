@@ -2,21 +2,21 @@
   "medicine": [
     {
       "id": 2,
-      "name": "json-server121",
+      "name": "json-server",
       "Price": "1201",
       "quantity": "1601",
       "expiry": 2023
     },
     {
       "id": 318,
-      "name": "Binal1",
+      "name": "Binalb",
       "Price": "6541",
       "quantity": "300",
       "expiry": "2024"
     },
     {
       "id": 943,
-      "name": "Binal1we",
+      "name": "Binal",
       "Price": "565",
       "quantity": "300",
       "expiry": "2022"
