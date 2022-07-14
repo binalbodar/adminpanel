@@ -7,7 +7,7 @@ export const getMedicines = () => (dispatch) => {
     dispatch(loadingMedicine());
 
     getMedicinesData()
-      .then(data => dispatch(({ type: ActionTypes.GET_MEDICINE, payload: data.data })))
+      .then(data => dispatch(({ type: ActionTypes.GET_MEDICINE, payload: data })))
     // setTimeout(function () {
     //   return fetch(BASE_URL + 'medicine')
     //     .then(response => {
