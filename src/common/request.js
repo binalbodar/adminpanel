@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL } from '../../sharad/baseurl';
+import { BASE_URL } from '../sharad/baseurl';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -10,9 +10,9 @@ const sendRequest = (config) => {
     return axiosInstance.request(config)
 }
 
-export const getRequest = (path) => {
-    return sendRequest.request({
-        url: path,
-        method: "GET"
-    });
+export const getRequest=(path)=>{
+    return sendRequest({
+        url:path,
+        method:"GET"
+    })
 }
