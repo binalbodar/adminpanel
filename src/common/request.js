@@ -14,8 +14,8 @@ export const getRequest = (path) => {
     return sendRequest({
         url: path,
         method: "GET"
-    });
-};
+    })
+}
 
 export const postRequest = (path, data) => {
     return sendRequest({
@@ -28,9 +28,20 @@ export const postRequest = (path, data) => {
     })
 }
 
-export const deleteRequest = (path, id)=>{
+export const deleteRequest = (path, id) => {
     return sendRequest({
         url: path + id,
         method: "DELETE"
+    })
+}
+
+export const putRequest = (path, data) => {
+    return sendRequest({
+        url: path + data.id,
+        method: "PUT",
+        data: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+        }
     })
 }
