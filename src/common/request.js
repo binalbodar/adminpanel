@@ -14,8 +14,8 @@ export const getRequest = (path) => {
     return sendRequest({
         url: path,
         method: "GET"
-    });
-};
+    })
+}
 
 export const postRequest = (path, data) => {
     return sendRequest({
