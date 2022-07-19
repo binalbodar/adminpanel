@@ -14,3 +14,4 @@ export const deleteMedicinesData = (id) => {
 export const upadateMedicinesData = (data) => {
     return putRequest("medicine/", data)
 }
+   
