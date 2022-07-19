@@ -1,6 +1,6 @@
 import * as ActionTypes from "../ActionTypes"
 import { BASE_URL } from "../../sharad/baseurl"
-import { addMedicinesData, deleteMedicinesData, getMedicinesData } from "../../common/apis/medicine.api";
+import { addMedicinesData, deleteMedicinesData, getMedicinesData, upadateMedicinesData } from "../../common/apis/medicine.api";
 
 export const getMedicines = () => (dispatch) => {
   try {
@@ -117,29 +117,34 @@ export const deleteMedicines=(id)=>(dispatch)=>{
 
 export const upadateMedicine =(data)=>(dispatch)=>{
   try {
-    return fetch(BASE_URL + 'medicine/' + data.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      },
-        error => {
-          var errmess = new Error(error.message);
-          throw errmess;
-        })
-      .then((response) => response.json())
-      .then(medicine => dispatch(({ type: ActionTypes.UPADATE_MEDICINE, payload: data})))
-      .catch((error) => dispatch(errorMedicine(error.message)))
+
+    upadateMedicinesData(data)
+    .then((data)=>dispatch(({type: ActionTypes.UPADATE_MEDICINE, payload: data.data})))
+    .catch((error) => dispatch(errorMedicine(error.message)))
+    
+    // return fetch(BASE_URL + 'medicine/' + data.id, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+    //   .then(response => {
+    //     if (response.ok) {
+    //       return response;
+    //     } else {
+    //       var error = new Error('Error ' + response.status + ': ' + response.statusText);
+    //       error.response = response;
+    //       throw error;
+    //     }
+    //   },
+    //     error => {
+    //       var errmess = new Error(error.message);
+    //       throw errmess;
+    //     })
+    //   .then((response) => response.json())
+    //   .then(medicine => dispatch(({ type: ActionTypes.UPADATE_MEDICINE, payload: data})))
+    //   .catch((error) => dispatch(errorMedicine(error.message)))
   } catch (error) {
     dispatch(errorMedicine(error.message))
   }
