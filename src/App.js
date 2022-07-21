@@ -8,6 +8,7 @@ import { configurStore } from "./Redux/Store";
 import Counter from "./Redux/Reducer/Counter";
 import { PersistGate } from 'redux-persist/integration/react'
 import PromicisesExampal from "./Container/promicisesExampal/PromicisesExampal";
+import UseMemoExampal from "./Container/UseHookExampal/UseMemoExampal";
 
 function App() {
   const {store, persistor} = configurStore();
@@ -22,6 +23,7 @@ function App() {
               <Route exact path={"/doctor"} component={Doctor} />
               <Route exact path={"/counter"} component={Counter} />
               <Route exact path={"/promicises_Exampal"} component={PromicisesExampal} />
+              <Route exact path={"/memrise_Exampal"} component={UseMemoExampal} />
             </Switch>
           </Layout>
         </PersistGate>
