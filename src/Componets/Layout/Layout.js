@@ -89,7 +89,8 @@ export default function Layout({children}) {
       {label: 'MedicineFormik', to: '/medicineformik', Icon: <MedicalServicesIcon/>},
       {label: 'Counter', to: '/counter', Icon: <HourglassEmptyIcon/>},
       {label: 'promicisesExampal', to: '/promicises_Exampal', Icon: <PersonIcon/>},
-      {label: 'UseMemoExampal', to: '/memrise_Exampal', Icon: <MedicalServicesIcon/>}
+      {label: 'UseMemoExampal', to: '/memrise_Exampal', Icon: <MedicalServicesIcon/>},
+      {label: 'UseCallbackExampal', to: '/callback_Exampal', Icon: <PersonIcon/>}
   ]
 
   return (
