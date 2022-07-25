@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import PromicisesExampal from "./Container/promicisesExampal/PromicisesExampal";
 import UseMemoExampal from "./Container/UseHookExampal/UseMemoExampal";
 import UseCallbackExampal from "./Container/UseHookExampal/UseCallbackExampal";
+import UseContextExampal from "./Container/UseContextExampal/UseContextExampal";
 
 function App() {
   const {store, persistor} = configurStore();
@@ -26,6 +27,7 @@ function App() {
               <Route exact path={"/promicises_Exampal"} component={PromicisesExampal} />
               <Route exact path={"/memrise_Exampal"} component={UseMemoExampal} />
               <Route exact path={"/callback_Exampal"} component={UseCallbackExampal} />
+              <Route exact path={"/Context_Exampal"} component={UseContextExampal} />
             </Switch>
           </Layout>
         </PersistGate>

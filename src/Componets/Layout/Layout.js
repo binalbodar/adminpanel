@@ -90,7 +90,8 @@ export default function Layout({children}) {
       {label: 'Counter', to: '/counter', Icon: <HourglassEmptyIcon/>},
       {label: 'promicisesExampal', to: '/promicises_Exampal', Icon: <PersonIcon/>},
       {label: 'UseMemoExampal', to: '/memrise_Exampal', Icon: <MedicalServicesIcon/>},
-      {label: 'UseCallbackExampal', to: '/callback_Exampal', Icon: <PersonIcon/>}
+      {label: 'UseCallbackExampal', to: '/callback_Exampal', Icon: <PersonIcon/>},
+      {label: 'UseContextExampal', to: '/Context_Exampal', Icon: <PersonIcon/>}
   ]
 
   return (
