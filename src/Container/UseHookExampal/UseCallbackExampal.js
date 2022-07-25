@@ -22,9 +22,9 @@ function UseCallbackExampal(props) {
             <div style={Theme}>
                 <button onClick={() => setDark(!dark)}>Change Theme</button>
                 <TextField type="text" placeholder='Plese Enter Number' onChange={(e) => setNumber(parseInt(e.target.value))} />
+                
+                <ListItem getItem={getItem} />
             </div>
-
-            <ListItem getItem={getItem} />
         </>
     );
 }

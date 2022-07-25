@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 function ListItem({getItem}) {
 
-    const [item, setItem] = useState([0])
+    const [item, setItem] = useState([])
 
     useEffect(()=>{
         setItem(getItem(5));
