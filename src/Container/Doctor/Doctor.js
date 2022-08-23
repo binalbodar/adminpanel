@@ -92,25 +92,27 @@ function Doctor(props) {
         [])
 
     let handleSubmit = (values) => {
-        console.log(name, age, city, department);
+        // console.log(name, age, city, department);
 
-        let data = {
-            id: Math.floor(Math.random() * 1000),
-            name: values.name,
-            age: values.age,
-            city: values.city,
-            department: values.department
-        };
+        // let data = {
+        //     id: Math.floor(Math.random() * 1000),
+        //     name: values.name,
+        //     age: values.age,
+        //     city: values.city,
+        //     department: values.department
+        // };
 
-        let localData = JSON.parse(localStorage.getItem('medicine'));
+        // let localData = JSON.parse(localStorage.getItem('medicine'));
 
-        if (localData === null) {
-            localStorage.setItem('medicine', JSON.stringify([data]));
-        }
-        else {
-            localData.push(data);
-            localStorage.setItem('medicine', JSON.stringify(localData));
-        }
+        // if (localData === null) {
+        //     localStorage.setItem('medicine', JSON.stringify([data]));
+        // }
+        // else {
+        //     localData.push(data);
+        //     localStorage.setItem('medicine', JSON.stringify(localData));
+        // }
+
+        
 
         handleClose();
         setName('');
