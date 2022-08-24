@@ -12,7 +12,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
-
+import { useDispatch } from 'react-redux';
+import { addDoctore, getDoctore } from '../../Redux/Action/doctore.action';
 
 function Doctor(props) {
     const [open, setOpen] = useState(false);
@@ -25,6 +26,8 @@ function Doctor(props) {
     const [did, setDid] = useState();
     const [update, setUpdate] = useState(false);
     const [uid, setUid] = useState();
+
+    const dispatch = useDispatch()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -88,19 +91,19 @@ function Doctor(props) {
     useEffect(
         () => {
             getData();
+            dispatch(getDoctore())
         },
         [])
 
     let handleSubmit = (values) => {
         // console.log(name, age, city, department);
 
-        // let data = {
-        //     id: Math.floor(Math.random() * 1000),
-        //     name: values.name,
-        //     age: values.age,
-        //     city: values.city,
-        //     department: values.department
-        // };
+        let data = {
+            id: Math.floor(Math.random() * 1000),
+            ...values
+        };
+
+        dispatch(addDoctore())
 
         // let localData = JSON.parse(localStorage.getItem('medicine'));
 
@@ -111,7 +114,6 @@ function Doctor(props) {
         //     localData.push(data);
         //     localStorage.setItem('medicine', JSON.stringify(localData));
         // }
-
         
 
         handleClose();
