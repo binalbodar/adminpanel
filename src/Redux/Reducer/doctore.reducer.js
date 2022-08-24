@@ -4,7 +4,7 @@ const initialstate = {
     doctore: [],
     error: ''
 }
-export const medicinesReducer = (state = initialstate, action) => {
+export const doctoreReducer = (state = initialstate, action) => {
     console.log(action.type, action.payload, state);
     switch (action.type) {
         case ActionTypes.LOADING_DOCTORE:
