@@ -12,8 +12,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
-import { useDispatch } from 'react-redux';
-import { addDoctore, getDoctore } from '../../Redux/Action/doctore.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDoctore, deleteDoctore, getDoctore, upadateDoctore } from '../../Redux/Action/doctore.action';
 
 function Doctor(props) {
     const [open, setOpen] = useState(false);
@@ -26,7 +26,7 @@ function Doctor(props) {
     const [did, setDid] = useState();
     const [update, setUpdate] = useState(false);
     const [uid, setUid] = useState();
-
+    const Doctor = useSelector(state => state.doctore)
     const dispatch = useDispatch()
 
     const handleClickOpen = () => {
@@ -53,36 +53,40 @@ function Doctor(props) {
         setUid(params.id);
         setOpen(true);
         formik.setValues({
+        id: params.id,
         name:params.name,
-        age:params.Age,
+        age:params.age,
         city:params.city,
         department:params.department
         });
         setUpdate(true);
     }
     const handleUpdate=(values)=>{
-        console.log(values, uid);
-        let localData=JSON.parse(localStorage.getItem('medicine'));
-        let vData=localData.map((l)=>{
-            if(l.id===uid){
-                return{id: uid, ...values};
-            }
-            else
-            {
-                return l;
-            }
-        })
-        console.log(vData);
-        localStorage.setItem("medicine", JSON.stringify(vData));
+        console.log(values);
+        dispatch(upadateDoctore(values));
+        // console.log(values, uid);
+        // let localData=JSON.parse(localStorage.getItem('medicine'));
+        // let vData=localData.map((l)=>{
+        //     if(l.id===uid){
+        //         return{id: uid, ...values};
+        //     }
+        //     else
+        //     {
+        //         return l;
+        //     }
+        // })
+        // console.log(vData);
+        // localStorage.setItem("medicine", JSON.stringify(vData));
         setOpen(false);
         setUpdate(false);
         setUid();
         getData();
     }
     const handleDelete = () => {
-        let localData1 = JSON.parse(localStorage.getItem("medicine"));
-        let appData = localData1.filter((l, i) => l.id !== did);
-        localStorage.setItem("medicine", JSON.stringify(appData));
+        dispatch(deleteDoctore(did))
+        // let localData1 = JSON.parse(localStorage.getItem("medicine"));
+        // let appData = localData1.filter((l, i) => l.id !== did);
+        // localStorage.setItem("medicine", JSON.stringify(appData));
         getData();
         setDid('');
         handleClose('');
@@ -98,12 +102,8 @@ function Doctor(props) {
     let handleSubmit = (values) => {
         // console.log(name, age, city, department);
 
-        let data = {
-            id: Math.floor(Math.random() * 1000),
-            ...values
-        };
 
-        dispatch(addDoctore())
+        dispatch(addDoctore(values))
 
         // let localData = JSON.parse(localStorage.getItem('medicine'));
 
@@ -186,7 +186,7 @@ function Doctor(props) {
             </Button>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={data}
+                    rows={Doctor.doctore}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
