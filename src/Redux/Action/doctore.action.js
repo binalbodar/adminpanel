@@ -1,6 +1,7 @@
 import * as ActionTypes from "../ActionTypes"
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firbase";
+import { db, storage } from "../../firbase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 //GET DOCTORE
 export const getDoctore = () => async (dispatch) => {
@@ -35,9 +36,34 @@ export const errorDoctore = (error) => (dispach) => {
 //ADD DOCTORE
 export const addDoctore = (data) => async (dispatch) => {
   try {
-    dispatch(loadingDoctore());
-    const docRef = await addDoc(collection(db, "doctore"), data);
-    dispatch({ type: ActionTypes.POST_DOCTORE, payload: { id: docRef.id, ...data } })
+    const doctoreRef = ref(storage, 'doctore/' + data.file.name);
+    uploadBytes(doctoreRef, data.file)
+      .then((snapshot) => {
+        getDownloadURL(ref(snapshot.ref))
+          .then(async (url) => {
+            const docRef = await addDoc(collection(db, "doctore"), data = {
+              name: data.name,
+              age: data.age,
+              city: data.city,
+              department: data.department,
+              url: url
+          })
+            dispatch({
+              type: ActionTypes.POST_DOCTORE,
+              payload: {
+                id: docRef.id,
+                name: data.name,
+                age: data.age,
+                city: data.city,
+                department: data.department,
+                url: url
+              }
+            })
+          });
+      });
+    // dispatch(loadingDoctore());
+    // 
+    console.log(data);
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }
@@ -66,7 +92,7 @@ export const upadateDoctore = (data) => async (dispatch) => {
       city: data.city,
       department: data.department
     });
-    dispatch({type: ActionTypes.UPADATE_DOCTORE, payload: data})
+    dispatch({ type: ActionTypes.UPADATE_DOCTORE, payload: data })
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }

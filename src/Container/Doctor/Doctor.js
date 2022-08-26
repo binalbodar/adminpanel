@@ -126,10 +126,11 @@ function Doctor(props) {
     }
 
     let schema = yup.object().shape({
-        name: yup.string().required('Plese Enter Your Name'),
-        age: yup.string().required('Plese Enter Your Age'),
-        city: yup.string().required('Plese Enter Your City'),
-        department: yup.string().required('Plese Enter Your department')
+        name: yup.string().required('Please Enter Your Name'),
+        age: yup.string().required('Please Enter Your Age'),
+        city: yup.string().required('Please Enter Your City'),
+        department: yup.string().required('Please Enter Your Department'),
+        file: yup.mixed().required('Please Select File')
     });
 
     const formik = useFormik({
@@ -137,7 +138,8 @@ function Doctor(props) {
             name: '',
             age: '',
             city: '',
-            department: ''
+            department: '',
+            flie: ''
         },
         validationSchema: schema,
         onSubmit: values => {
@@ -244,6 +246,15 @@ function Doctor(props) {
                                 onChange={formik.handleChange}
                             />
                             {formik.errors.department ? <p>{formik.errors.department}</p> : null}
+
+                            <input
+                                type="file"
+                                name='file'
+                                id='file'
+                                onChange={(event)=>formik.setFieldValue("file", event.target.files[0])}
+                            />
+                            {formik.errors.file ? <p>{formik.errors.file}</p> : null}
+
                             <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
                                 <Button type='submit'>Submit</Button>
