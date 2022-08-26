@@ -61,9 +61,6 @@ export const addDoctore = (data) => async (dispatch) => {
             })
           });
       });
-    // dispatch(loadingDoctore());
-    // 
-    console.log(data);
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }
