@@ -40,7 +40,6 @@ function Doctor(props) {
 
     const handledClickOpen = (params) => {
         setDOpen(true);
-        setDid(params.id);
     };
 
     const getData = () => {
@@ -83,6 +82,7 @@ function Doctor(props) {
         getData();
     }
     const handleDelete = () => {
+        console.log(did);
         dispatch(deleteDoctore(did))
         // let localData1 = JSON.parse(localStorage.getItem("medicine"));
         // let appData = localData1.filter((l, i) => l.id !== did);
@@ -161,6 +161,12 @@ function Doctor(props) {
         { field: 'age', headerName: 'Age', width: 130 },
         { field: 'city', headerName: 'City', width: 130 },
         { field: 'department', headerName: 'Department', width: 130 },
+        { 
+            field: 'url', headerName: 'FileName', width: 130,
+            renderCell: (params) => (
+                <img src={params.row.url} width={50} height={50}/>
+            )
+        },
         {
             field: 'action',
             headerName: 'Action',
@@ -168,7 +174,7 @@ function Doctor(props) {
             renderCell: (params) => {
                 return (
                     <>
-                    <IconButton aria-label="delete" onClick={() => handledClickOpen(params)}>
+                    <IconButton aria-label="delete" onClick={() => {setDid(params.row); handledClickOpen(params)}}>
                         <DeleteIcon />
                     </IconButton>
 
@@ -184,7 +190,7 @@ function Doctor(props) {
     return (
         <div>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Add Medicine
+                Add Doctore Data
             </Button>
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid

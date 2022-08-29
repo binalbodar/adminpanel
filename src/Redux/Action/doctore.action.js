@@ -1,7 +1,8 @@
 import * as ActionTypes from "../ActionTypes"
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firbase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { async } from "@firebase/util";
 
 //GET DOCTORE
 export const getDoctore = () => async (dispatch) => {
@@ -36,7 +37,8 @@ export const errorDoctore = (error) => (dispach) => {
 //ADD DOCTORE
 export const addDoctore = (data) => async (dispatch) => {
   try {
-    const doctoreRef = ref(storage, 'doctore/' + data.file.name);
+    const randomdoc = Math.floor(Math.random() * 1000000).toString();
+    const doctoreRef = ref(storage, 'doctore/' + randomdoc);
     uploadBytes(doctoreRef, data.file)
       .then((snapshot) => {
         getDownloadURL(ref(snapshot.ref))
@@ -46,8 +48,9 @@ export const addDoctore = (data) => async (dispatch) => {
               age: data.age,
               city: data.city,
               department: data.department,
-              url: url
-          })
+              url: url,
+              fileName: randomdoc
+            })
             dispatch({
               type: ActionTypes.POST_DOCTORE,
               payload: {
@@ -56,7 +59,8 @@ export const addDoctore = (data) => async (dispatch) => {
                 age: data.age,
                 city: data.city,
                 department: data.department,
-                url: url
+                url: url,
+                fileName: randomdoc
               }
             })
           });
@@ -67,10 +71,19 @@ export const addDoctore = (data) => async (dispatch) => {
 }
 
 //DELETE DOCTORE
-export const deleteDoctore = (id) => async (dispatch) => {
+export const deleteDoctore = (data) => async (dispatch) => {
   try {
-    await deleteDoc(doc(db, "doctore", id));
-    dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: id })
+    console.log(data);
+    const docRef = ref(storage, 'doctore/' + data.fileName);
+
+    deleteObject(docRef)
+    .then(async() => {
+      await deleteDoc(doc(db, "doctore", data.id));
+      dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: data})
+    })
+    .catch((error) => {
+      dispatch(errorDoctore(error.message))
+    });
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }
