@@ -56,12 +56,13 @@ function Doctor(props) {
         name:params.name,
         age:params.age,
         city:params.city,
-        department:params.department
+        department:params.department,
+        file: params.url,
+        ...params.row
         });
         setUpdate(true);
     }
     const handleUpdate=(values)=>{
-        console.log(values);
         dispatch(upadateDoctore(values));
         // console.log(values, uid);
         // let localData=JSON.parse(localStorage.getItem('medicine'));

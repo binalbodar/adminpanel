@@ -2,7 +2,6 @@ import * as ActionTypes from "../ActionTypes"
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from "../../firbase";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { async } from "@firebase/util";
 
 //GET DOCTORE
 export const getDoctore = () => async (dispatch) => {
@@ -79,7 +78,7 @@ export const deleteDoctore = (data) => async (dispatch) => {
     deleteObject(docRef)
     .then(async() => {
       await deleteDoc(doc(db, "doctore", data.id));
-      dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: data})
+      dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: data.id})
     })
     .catch((error) => {
       dispatch(errorDoctore(error.message))
@@ -91,18 +90,26 @@ export const deleteDoctore = (data) => async (dispatch) => {
 
 //UPDATE DOCTORE
 export const upadateDoctore = (data) => async (dispatch) => {
-  // console.log(data.id);
+  console.log(data);
   try {
     const doctoreRef = doc(db, "doctore", data.id);
+    
+    if (typeof data.file === "string"){
+      await updateDoc(doctoreRef, {
+        name: data.name,
+        age: data.age,
+        city: data.city,
+        department: data.department,
+        fileName: data.fileName,
+        url: data.url
+        });
+        dispatch({ type: ActionTypes.UPADATE_DOCTORE, payload: data })
 
-    // Set the "capital" field of the city 'DC'
-    await updateDoc(doctoreRef, {
-      name: data.name,
-      age: data.age,
-      city: data.city,
-      department: data.department
-    });
-    dispatch({ type: ActionTypes.UPADATE_DOCTORE, payload: data })
+    }else{
+      console.log("Data With Image");
+    }
+    // 
+    // 
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }
