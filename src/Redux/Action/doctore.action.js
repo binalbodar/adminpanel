@@ -42,7 +42,7 @@ export const addDoctore = (data) => async (dispatch) => {
       .then((snapshot) => {
         getDownloadURL(ref(snapshot.ref))
           .then(async (url) => {
-            const docRef = await addDoc(collection(db, "doctore"), data = {
+            const docRef = await addDoc(collection(db, "doctore"),{
               name: data.name,
               age: data.age,
               city: data.city,
@@ -76,13 +76,13 @@ export const deleteDoctore = (data) => async (dispatch) => {
     const docRef = ref(storage, 'doctore/' + data.fileName);
 
     deleteObject(docRef)
-    .then(async() => {
-      await deleteDoc(doc(db, "doctore", data.id));
-      dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: data.id})
-    })
-    .catch((error) => {
-      dispatch(errorDoctore(error.message))
-    });
+      .then(async () => {
+        await deleteDoc(doc(db, "doctore", data.id));
+        dispatch({ type: ActionTypes.DELETE_DOCTORE, payload: data.id })
+      })
+      .catch((error) => {
+        dispatch(errorDoctore(error.message))
+      });
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }
@@ -90,26 +90,52 @@ export const deleteDoctore = (data) => async (dispatch) => {
 
 //UPDATE DOCTORE
 export const upadateDoctore = (data) => async (dispatch) => {
-  console.log(data);
   try {
     const doctoreRef = doc(db, "doctore", data.id);
-    
-    if (typeof data.file === "string"){
+
+    if (typeof data.file === "string") {
       await updateDoc(doctoreRef, {
         name: data.name,
         age: data.age,
         city: data.city,
         department: data.department,
-        fileName: data.fileName,
+        // fileName: data.fileName,
         url: data.url
-        });
-        dispatch({ type: ActionTypes.UPADATE_DOCTORE, payload: data })
+      });
+      dispatch({ type: ActionTypes.UPADATE_DOCTORE, payload: data })
 
-    }else{
-      console.log("Data With Image");
+    } else {
+      const docRef = ref(storage, 'doctore/' + data.fileName);
+      deleteObject(docRef)
+        .then(
+          async () => {
+            const randomdoc = Math.floor(Math.random() * 1000000).toString();
+            const doctoreRefint = ref(storage, 'doctore/' + randomdoc);
+            uploadBytes(doctoreRefint, data.file)
+              .then((snapshot) => {
+                getDownloadURL(snapshot.ref)
+                  .then(async (url) => {
+                    await updateDoc(doctoreRef, {
+                      name: data.name,
+                      age: data.age,
+                      city: data.city,
+                      department: data.department,
+                      fileName: randomdoc,
+                      url: url
+                    });
+
+                    dispatch({
+                      type: ActionTypes.UPADATE_DOCTORE,
+                      payload: {
+                        ...data,
+                        fileName: randomdoc,
+                        url: url
+                      }
+                    })
+                  });
+              });
+          })
     }
-    // 
-    // 
   } catch (error) {
     dispatch(errorDoctore(error.message))
   }

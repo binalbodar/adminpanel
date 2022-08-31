@@ -58,7 +58,7 @@ function Doctor(props) {
         city:params.city,
         department:params.department,
         file: params.url,
-        ...params.row
+        ...params
         });
         setUpdate(true);
     }
