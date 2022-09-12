@@ -204,7 +204,7 @@ function Doctor(props) {
             </div>
 
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Medicine Data</DialogTitle>
+                <DialogTitle>Doctor Data</DialogTitle>
                 <Formik values={formik}>
                     <Form onSubmit={formik.handleSubmit}>
                         <DialogContent>
